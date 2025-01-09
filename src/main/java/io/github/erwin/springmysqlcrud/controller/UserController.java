@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.github.erwin.springmysqlcrud.service.UserService;
 import io.github.erwin.springmysqlcrud.entity.User;
-
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/user")
@@ -49,6 +49,14 @@ public class UserController {
     public ResponseEntity<User> UpdateName(@PathVariable int id, @RequestBody UserDto user){
         User updatedUser = userService.updateUserName(id, user);
         return ResponseEntity.ok(updatedUser);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<User> getUserByName(@RequestParam String name){
+        Optional<User> user = userService.getUserByName(name);
+
+        return user.map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }

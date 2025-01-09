@@ -11,6 +11,7 @@ import io.github.erwin.springmysqlcrud.repository.UserRepository;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -65,5 +66,9 @@ public class UserServiceImpl implements UserService {
         existingUser.setName(user.getName());
         userRepository.save(existingUser);
         return existingUser;
+    }
+
+    public Optional<User> getUserByName(String name){
+        return userRepository.findByName(name);
     }
 }
